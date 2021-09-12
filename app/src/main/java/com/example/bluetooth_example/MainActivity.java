@@ -15,8 +15,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
-
+// REFERENCE
+// http://cmnocsexperience.blogspot.com/2019/01/android.html
+// https://github.com/android/connectivity-samples
+// https://ivanliang86.pixnet.net/blog/post/102107617
 public class MainActivity extends AppCompatActivity {
     private Button On,Off,list;
     private ListView lv;
