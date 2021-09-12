@@ -1,16 +1,20 @@
 package com.example.bluetooth_example;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.util.Set;
 
-import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log; // for logger
 import android.bluetooth.BluetoothAdapter; // for Bluetooth
+import android.content.Intent;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
+
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST_ENABLE_BT = 2;
+    private Button On,Off,list;
     private static final String TAG = "QQM";
     BluetoothAdapter BT = BluetoothAdapter.getDefaultAdapter();
 
@@ -19,25 +23,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "MyClass.getView() 1");
         setContentView(R.layout.activity_main);
-        Log.i(TAG, "MyClass.getView() 2");
-        Log.i(TAG, "MyClass.getView() 3");
-        if (!BT.isEnabled()) {
-            Log.i(TAG, "MyClass.getView() 4");
-            Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            Log.i(TAG, "MyClass.getView() 5");
-            startActivityForResult(turnOn, 0);
-            Log.i(TAG, "MyClass.getView() 6");
-            Toast.makeText(getApplicationContext(),"Turned on BT" , Toast.LENGTH_LONG).show();
-            Log.i(TAG, "MyClass.getView() 7");
+
+        // Get control to the GUI item
+        On = (Button)findViewById(R.id.button_on);
+        Off = (Button)findViewById(R.id.button_off);
+        list = (Button)findViewById(R.id.button_list);
+    }
+
+    public void button_cb_on(View view) {
+        Log.i(TAG, "button_cb_on()");
+        String msg;
+        if(BT.isEnabled()) {
+            msg = "BT is already on";
         } else {
-            Log.i(TAG, "MyClass.getView() 8");
-            Toast.makeText(getApplicationContext(),"BT is already on", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "MyClass.getView() 9");
+            Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(turnOn, 0);
+            msg = "BT is been turned on";
         }
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+    }
 
-        // In this place the bluetooth adapter is already enabled
-        // ... well actually not, the enable BT button is acync to this place
+    public void button_cb_off(View view) {
+        Log.i(TAG, "button_cb_off");
+        if(BT.isEnabled()) {
+            BT.disable();
+            String msg = "BT is turned off";
+            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+        }
+    }
 
+    public void button_cb_list(View view) {
+        Log.i(TAG, "button_cb_list");
 
     }
 }
