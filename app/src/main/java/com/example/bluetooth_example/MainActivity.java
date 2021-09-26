@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "QQM";
     BluetoothAdapter BT = BluetoothAdapter.getDefaultAdapter();
     private Set<BluetoothDevice>pairedDevices;
+    private ArrayList BTpairedDevices_list;
 
 
     @Override
@@ -43,11 +44,17 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
-                ListView listView;
-                listView = (ListView) arg0;
-                String msg = "ID=" + arg3 + " TEXT=" + listView.getItemAtPosition(arg2).toString();
+                String msg = "UPON onItemClick() " "ID=" + arg3
                 Log.i(TAG, msg);
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+
+                // Use arg3, "ID", to lookup BTpairedDevices_list to retrieve the BluetoothDeice
+                BluetoothDevice bt = (BluetoothDevice)BTpairedDevices_list.get((int)(arg3));
+                String dev_name = "UPON onItemClick() " + "NAME:" + bt.getName() + " ADDR:" + bt.getAddress();
+                Log.i(TAG, dev_name);
+
+                // Then we can connect to the BT device with "bt" object above...
+
+
             }
         });
 
@@ -77,15 +84,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void button_cb_list(View view) {
         Log.i(TAG, "button_cb_list");
-        pairedDevices = BT.getBondedDevices();
+        Set<BluetoothDevice>pairedDevices = BT.getBondedDevices();
 
-        ArrayList list = new ArrayList();
+        ArrayList list_content = new ArrayList();
+        BTpairedDevices_list = new ArrayList();
         for(BluetoothDevice bt : pairedDevices) {
-            list.add(bt.getName());
+            BTpairedDevices_list.add(bt);
+            String dev_name = "NAME:" + bt.getName() + " ADDR:" + bt.getAddress();
+            list_content.add(dev_name);
         }
 
         Toast.makeText(getApplicationContext(),"Showing Paired Devices", Toast.LENGTH_SHORT).show();
-        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list_content);
         lv.setAdapter(adapter);
     }
 }
