@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
-                String msg = "UPON onItemClick() " + "ID=" + arg3
+                String msg = "UPON onItemClick() " + "ID=" + arg3;
                 Log.i(TAG, msg);
 
                 // Use arg3, "ID", to lookup BTpairedDevices_list to retrieve the BluetoothDeice
