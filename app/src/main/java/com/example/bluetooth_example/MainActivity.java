@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -38,6 +39,18 @@ public class MainActivity extends AppCompatActivity {
         Off = (Button)findViewById(R.id.button_off);
         list = (Button)findViewById(R.id.button_list);
         lv = (ListView)findViewById(R.id.bt_listview);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
+                ListView listView;
+                listView = (ListView) arg0;
+                String msg = "ID=" + arg3 + " TEXT=" + listView.getItemAtPosition(arg2).toString();
+                Log.i(TAG, msg);
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     public void button_cb_on(View view) {
